@@ -1,0 +1,299 @@
+---
+title: "Tolk vs FunC: standard library"
+sidebarTitle: "Standard library"
+---
+import { Aside } from '/snippets/aside.jsx';
+
+FunC includes a low-level [standard library](/languages/func/stdlib) in the `stdlib.fc` file, containing `asm` functions closely tied to [TVM instructions](/tvm/instructions).
+
+Tolk provides a standard library based on FunC’s with three main differences.
+
+1. It is split into multiple files: `common.tolk`, `tvm-dicts.tolk`, and others. Functions from `common.tolk` are available, while functions from other files require an import:
+
+```tolk
+import "@stdlib/tvm-dicts"
+
+beginCell()          // always available
+createEmptyDict()    // available due to import
+```
+2. No separate download from GitHub; is required; the library is included in the Tolk distribution.
+2. Tolk has functions and methods which are called using the dot operator. Many global FunC functions became methods of builders, slices, and other types, and can no longer be called as functions.
+
+
+## Functions vs methods
+In FunC, there are no methods. All functions are globally scoped.
+Any function can be called using the dot operator:
+
+```func
+;; FunC
+cell config_param(int x) asm "CONFIGOPTPARAM";
+
+config_param(16);   ;; ok
+16.config_param();  ;; also ok
+```
+
+Calling `b.end_cell()` invokes the global function `end_cell`.
+Since all functions are global, there are no "short methods":
+
+```func
+someTuple.tuple_size();
+;; why not someTuple.size()? because it's a global function:
+;; int tuple_size(tuple t)
+```
+
+**Tolk separates functions and methods**, as in most languages:
+1. Functions cannot be called with the dot operator; only methods can.
+1. Methods can have short names without conflicts.
+
+```tolk
+// FunC
+someCell.cell_hash();     // or cell_hash(someCell)
+someSlice.slice_hash();
+
+// Tolk
+someCell.hash();          // the only possible
+someSlice.hash();
+```
+
+## Renamed functions
+
+In the table below, if the **Required import** column is empty, the function is available without imports.
+
+Some functions were removed because they can be expressed syntactically or are rarely used in practice.
+
+<Aside>
+FunC uses **snake_case**, for example, `begin_cell`, while Tolk methods use **camelCase**, for example, `beginCell`.
+</Aside>
+
+The table follows the order in which functions appear in `stdlib.fc`.
+
+| FunC name                         | Tolk name                          | Required import |
+|-----------------------------------|------------------------------------|-----------------|
+| empty_tuple                       | createEmptyTuple                   |                 |
+| t~tpush                           | t.push(v)                          |                 |
+| first(t) or dot t.first()         | t.first()                          |                 |
+| at(t,i) or dot t.at(i)            | t.get(i) or just t.0 etc.          |                 |
+| touch(v) or dot                   | v.stackMoveToTop()                 | tvm-lowlevel    |
+| impure_touch                      | *(deleted)*                        |                 |
+| single                            | *(deleted)*                        |                 |
+| unsingle                          | *(deleted)*                        |                 |
+| pair                              | *(deleted)*                        |                 |
+| unpair                            | *(deleted)*                        |                 |
+| triple                            | *(deleted)*                        |                 |
+| untriple                          | *(deleted)*                        |                 |
+| tuple4                            | *(deleted)*                        |                 |
+| untuple4                          | *(deleted)*                        |                 |
+| second                            | *(deleted)*                        |                 |
+| third                             | *(deleted)*                        |                 |
+| fourth                            | *(deleted)*                        |                 |
+| pair_first                        | *(deleted)*                        |                 |
+| pair_second                       | *(deleted)*                        |                 |
+| triple_first                      | *(deleted)*                        |                 |
+| triple_second                     | *(deleted)*                        |                 |
+| triple_third                      | *(deleted)*                        |                 |
+| minmax                            | minMax                             |                 |
+| now                               | blockchain.now                     |                 |
+| my_address                        | contract.getAddress                |                 |
+| get_balance + pair_first          | contract.getOriginalBalance        |                 |
+| cur_lt                            | blockchain.logicalTime             |                 |
+| block_lt                          | blockchain.currentBlockLogicalTime |                 |
+| cell_hash(c) or dot               | c.hash()                           |                 |
+| slice_hash(s) or dot              | s.hash()                           |                 |
+| string_hash(s) or dot             | s.bitsHash()                       |                 |
+| check_signature                   | isSignatureValid                   |                 |
+| check_data_signature              | isSliceSignatureValid              |                 |
+| compute_data_size(c) or dot       | c.calculateSizeStrict()            |                 |
+| slice_compute_data_size(s) or dot | s.calculateSizeStrict()            |                 |
+| c.compute_data_size?() or dot     | c.calculateSize()                  |                 |
+| slice_compute_data_size?() or dot | s.calculateSize()                  |                 |
+| ~dump                             | debug.print                        |                 |
+| ~strdump                          | debug.printString                  |                 |
+| dump_stack                        | debug.dumpStack                    |                 |
+| get_data                          | contract.getData                   |                 |
+| set_data                          | contract.setData                   |                 |
+| get_c3                            | getTvmRegisterC3                   | tvm-lowlevel    |
+| set_c3                            | setTvmRegisterC3                   | tvm-lowlevel    |
+| bless                             | transformSliceToContinuation       | tvm-lowlevel    |
+| accept_message                    | acceptExternalMessage              |                 |
+| set_gas_limit                     | setGasLimit                        |                 |
+| buy_gas                           | *(deleted)*                        |                 |
+| commit                            | commitContractDataAndActions       |                 |
+| divmod                            | divMod                             |                 |
+| moddiv                            | modDiv                             |                 |
+| muldiv                            | mulDivFloor                        |                 |
+| muldivr                           | mulDivRound                        |                 |
+| muldivc                           | mulDivCeil                         |                 |
+| muldivmod                         | mulDivMod                          |                 |
+| begin_parse                       | beginParse                         |                 |
+| end_parse(s) or dot               | s.assertEnd()                      |                 |
+| load_ref                          | loadRef                            |                 |
+| preload_ref                       | preloadRef                         |                 |
+| load_int                          | loadInt                            |                 |
+| load_uint                         | loadUint                           |                 |
+| preload_int                       | preloadInt                         |                 |
+| preload_uint                      | preloadUint                        |                 |
+| load_bits                         | loadBits                           |                 |
+| preload_bits                      | preloadBits                        |                 |
+| load_grams                        | loadCoins                          |                 |
+| load_coins                        | loadCoins                          |                 |
+| skip_bits                         | s.skipBits                         |                 |
+| first_bits                        | getFirstBits                       |                 |
+| skip_last_bits                    | removeLastBits                     |                 |
+| slice_last                        | getLastBits                        |                 |
+| load_dict                         | loadDict                           |                 |
+| preload_dict                      | preloadDict                        |                 |
+| skip_dict                         | skipDict                           |                 |
+| load_maybe_ref                    | loadMaybeRef                       |                 |
+| preload_maybe_ref                 | preloadMaybeRef                    |                 |
+| cell_depth(c) or dot              | c.depth()                          |                 |
+| slice_refs(s) or dot              | s.remainingRefsCount()             |                 |
+| slice_bits(s) or dot              | s.remainingBitsCount()             |                 |
+| slice_bits_refs(s) or dot         | s.remainingBitsAndRefsCount()      |                 |
+| slice_empty?(s) or dot            | s.isEmpty()                        |                 |
+| slice_data_empty?(s) or dot       | s.isEndOfBits()                    |                 |
+| slice_refs_empty?(s) or dot       | s.isEndOfRefs()                    |                 |
+| slice_depth(s) or dot             | s.depth()                          |                 |
+| equal_slice_bits(a,b) or dot      | a.bitsEqual(b)                     |                 |
+| builder_refs(b) or dot            | b.refsCount()                      |                 |
+| builder_bits(b) or dot            | b.bitsCount()                      |                 |
+| builder_depth(b) or dot           | b.depth()                          |                 |
+| begin_cell                        | beginCell                          |                 |
+| end_cell                          | endCell                            |                 |
+| store_ref                         | storeRef                           |                 |
+| store_uint                        | storeUint                          |                 |
+| store_int                         | storeInt                           |                 |
+| store_slice                       | storeSlice                         |                 |
+| store_grams                       | storeCoins                         |                 |
+| store_coins                       | storeCoins                         |                 |
+| store_dict                        | storeDict                          |                 |
+| store_maybe_ref                   | storeMaybeRef                      |                 |
+| store_builder                     | storeBuilder                       |                 |
+| load_msg_addr                     | loadAddress                        |                 |
+| parse_addr                        | *(deleted)*                        |                 |
+| parse_std_addr                    | parseStandardAddress               |                 |
+| parse_var_addr                    | *(deleted)*                        |                 |
+| config_param                      | blockchain.configParam             |                 |
+| raw_reserve                       | reserveToncoinsOnBalance           |                 |
+| raw_reserve_extra                 | reserveExtraCurrenciesOnBalance    |                 |
+| send_raw_message                  | sendRawMessage                     |                 |
+| set_code                          | contract.setCodePostponed          |                 |
+| random                            | random.uint256                     |                 |
+| rand                              | random.range                       |                 |
+| get_seed                          | random.getSeed                     |                 |
+| set_seed                          | random.setSeed                     |                 |
+| randomize                         | random.initializeBy                |                 |
+| randomize_lt                      | random.initialize                  |                 |
+| dump                              | debug.print                        |                 |
+| strdump                           | debug.printString                  |                 |
+| dump_stk                          | debug.dumpStack                    |                 |
+| empty_list                        | createEmptyList                    | lisp-lists      |
+| cons                              | listPrepend                        | lisp-lists      |
+| uncons                            | listSplit                          | lisp-lists      |
+| list_next                         | listNext                           | lisp-lists      |
+| car                               | listGetHead                        | lisp-lists      |
+| cdr                               | listGetTail                        | lisp-lists      |
+| new_dict                          | createEmptyMap                     |                 |
+| dict_empty?(d) or dot             | m.isEmpty                          |                 |
+| idict_set_ref                     | use native maps                    |                 |
+| udict_set_ref                     | use native maps                    |                 |
+| idict_get_ref                     | use native maps                    |                 |
+| idict_get_ref?                    | use native maps                    |                 |
+| udict_get_ref?                    | use native maps                    |                 |
+| idict_set_get_ref                 | use native maps                    |                 |
+| udict_set_get_ref                 | use native maps                    |                 |
+| idict_delete?                     | use native maps                    |                 |
+| udict_delete?                     | use native maps                    |                 |
+| idict_get?                        | use native maps                    |                 |
+| udict_get?                        | use native maps                    |                 |
+| idict_delete_get?                 | use native maps                    |                 |
+| udict_delete_get?                 | use native maps                    |                 |
+| udict_set                         | use native maps                    |                 |
+| idict_set                         | use native maps                    |                 |
+| dict_set                          | use native maps                    |                 |
+| udict_add?                        | use native maps                    |                 |
+| udict_replace?                    | use native maps                    |                 |
+| idict_add?                        | use native maps                    |                 |
+| idict_replace?                    | use native maps                    |                 |
+| udict_set_builder                 | use native maps                    |                 |
+| idict_set_builder                 | use native maps                    |                 |
+| dict_set_builder                  | use native maps                    |                 |
+| udict_add_builder?                | use native maps                    |                 |
+| udict_replace_builder?            | use native maps                    |                 |
+| idict_add_builder?                | use native maps                    |                 |
+| idict_replace_builder?            | use native maps                    |                 |
+| udict_delete_get_min              | use native maps                    |                 |
+| idict_delete_get_min              | use native maps                    |                 |
+| dict_delete_get_min               | use native maps                    |                 |
+| udict_delete_get_max              | use native maps                    |                 |
+| idict_delete_get_max              | use native maps                    |                 |
+| dict_delete_get_max               | use native maps                    |                 |
+| udict_get_min?                    | use native maps                    |                 |
+| udict_get_max?                    | use native maps                    |                 |
+| udict_get_min_ref?                | use native maps                    |                 |
+| udict_get_max_ref?                | use native maps                    |                 |
+| idict_get_min?                    | use native maps                    |                 |
+| idict_get_max?                    | use native maps                    |                 |
+| idict_get_min_ref?                | use native maps                    |                 |
+| idict_get_max_ref?                | use native maps                    |                 |
+| udict_get_next?                   | use native maps                    |                 |
+| udict_get_nexteq?                 | use native maps                    |                 |
+| udict_get_prev?                   | use native maps                    |                 |
+| udict_get_preveq?                 | use native maps                    |                 |
+| idict_get_next?                   | use native maps                    |                 |
+| idict_get_nexteq?                 | use native maps                    |                 |
+| idict_get_prev?                   | use native maps                    |                 |
+| idict_get_preveq?                 | use native maps                    |                 |
+| udict::delete_get_min             | use native maps                    |                 |
+| idict::delete_get_min             | use native maps                    |                 |
+| dict::delete_get_min              | use native maps                    |                 |
+| udict::delete_get_max             | use native maps                    |                 |
+| idict::delete_get_max             | use native maps                    |                 |
+| dict::delete_get_max              | use native maps                    |                 |
+| pfxdict_get?                      | prefixDictGet                      | tvm-dicts       |
+| pfxdict_set?                      | prefixDictSet                      | tvm-dicts       |
+| pfxdict_delete?                   | prefixDictDelete                   | tvm-dicts       |
+
+
+## Added functions
+
+Some functions from FunC are missing in Tolk’s standard library, but it works well for everyday tasks.
+
+Tolk is evolving, and its standard library is continually updated over time. Check the `tolk-stdlib/` folder in the [source code](https://github.com/ton-blockchain/ton/tree/master/crypto/smartcont/tolk-stdlib). In addition to functions, some constants are added, such as `SEND_MODE_*` and `RESERVE_MODE_*`.
+
+When FunC becomes deprecated, the Tolk standard library documentation will be fully rewritten.
+
+All of these functions are wrappers over TVM assembler instructions. Missing functionality can be implemented by manually wrapping any TVM instruction.
+
+## Mutating functions
+
+Many FunC functions that used the `~` tilde now mutate the object in Tolk rather than returning a copy.
+| FunC | Tolk |
+|------|------|
+| `int flags = cs~load_uint(32);` | `var flags = cs.loadUint(32);` |
+| ...  | ...  |
+
+- If `cs~load_uint(…)` was used, use `cs.loadUint(…)` and everything works.
+- If `cs.load_uint(…)` was used to get a **copy**, a different approach is needed. [Read about mutability](/languages/tolk-vs-func/stdlib).
+
+## How the embedded stdlib works
+
+All standard library functions are available out of the box. Non-common functions require an `import`, but no external downloads are needed.
+
+Here’s how it works:
+
+1. The Tolk compiler locates the stdlib folder by searching predefined paths relative to an executable binary.
+
+For example, when the Tolk compiler is launched from a system-installed package, e.g., `/usr/bin/tolk`, the stdlib is located in `/usr/share/ton/smartcont`.
+
+For custom installations, the `TOLK_STDLIB` environment variable can be set. This is standard practice for compilers.
+
+2. The WASM wrapper [tolk-js](https://github.com/ton-blockchain/tolk-js) also includes the stdlib, so all stdlib functions are available out of the box when using tolk-js directly or through blueprint.
+
+2. JetBrains and VS Code IDE plugins automatically locate the stdlib to provide auto-completion.
+
+Blueprint installs tolk-js automatically, creating the `node_modules/@ton/tolk-js/` folder in the project structure.
+
+It contains `common.tolk`, `tvm-dicts.tolk`, and other stdlib files.
+
+
+
