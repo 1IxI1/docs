@@ -380,6 +380,15 @@
         "pages": [
           "languages/tolk",
           {
+            "group": "Tolk vs FunC",
+            "pages": [
+              "languages/tolk-vs-func/in-short",
+              "languages/tolk-vs-func/in-detail",
+              "languages/tolk-vs-func/mutability",
+              "languages/tolk-vs-func/stdlib"
+            ]
+          },
+          {
             "group": "TL-B",
             "pages": [
               "languages/TL-B/overview",
