@@ -76,7 +76,7 @@ The table follows the order in which functions appear in `stdlib.fc`.
 | t\~tpush                             | t.push(v)                          |                 |
 | first(t) or dot t.first()            | t.first()                          |                 |
 | at(t,i) or dot t.at(i)               | t.get(i) or just t.0 etc.          |                 |
-| touch(v) or dot                      | v.stackMoveToTop()                 | tvm-lowlevel    |
+| touch(v) or dot                      | v.stackMoveToTop()                 | TVM low-level   |
 | impure\_touch                        | _(deleted)_                        |                 |
 | single                               | _(deleted)_                        |                 |
 | unsingle                             | _(deleted)_                        |                 |
@@ -114,9 +114,9 @@ The table follows the order in which functions appear in `stdlib.fc`.
 | dump\_stack                          | debug.dumpStack                    |                 |
 | get\_data                            | contract.getData                   |                 |
 | set\_data                            | contract.setData                   |                 |
-| get\_c3                              | getTvmRegisterC3                   | tvm-lowlevel    |
-| set\_c3                              | setTvmRegisterC3                   | tvm-lowlevel    |
-| bless                                | transformSliceToContinuation       | tvm-lowlevel    |
+| get\_c3                              | getTvmRegisterC3                   | TVM low-level   |
+| set\_c3                              | setTvmRegisterC3                   | TVM low-level   |
+| bless                                | transformSliceToContinuation       | TVM low-level   |
 | accept\_message                      | acceptExternalMessage              |                 |
 | set\_gas\_limit                      | setGasLimit                        |                 |
 | buy\_gas                             | _(deleted)_                        |                 |
@@ -252,9 +252,9 @@ The table follows the order in which functions appear in `stdlib.fc`.
 | udict::delete\_get\_max              | use native maps                    |                 |
 | idict::delete\_get\_max              | use native maps                    |                 |
 | dict::delete\_get\_max               | use native maps                    |                 |
-| pfxdict\_get?                        | prefixDictGet                      | tvm-dicts       |
-| pfxdict\_set?                        | prefixDictSet                      | tvm-dicts       |
-| pfxdict\_delete?                     | prefixDictDelete                   | tvm-dicts       |
+| pfxdict\_get?                        | prefixDictGet                      | TVM dicts       |
+| pfxdict\_set?                        | prefixDictSet                      | TVM dicts       |
+| pfxdict\_delete?                     | prefixDictDelete                   | TVM dicts       |
 
 ## Added functions
 

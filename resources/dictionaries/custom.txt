@@ -190,6 +190,7 @@ Metafile
 Metaverse
 Micropayments
 Microtransaction
+Milner
 Minimalistic
 Mintlify
 Monero
@@ -379,6 +380,7 @@ birational
 birationally
 bitcode
 bitmask
+bitshift
 bitstring
 bitstrings
 bitwise
@@ -500,6 +502,7 @@ highload
 hostname
 iconUrl
 ident
+idict
 impactful
 incentivizes
 inclusivity
@@ -510,6 +513,7 @@ initializer
 injective
 injectivity
 inlined
+inlines
 inlining
 involutive
 isogeny
@@ -561,6 +565,7 @@ misclicks
 misconfiguration
 misconfigured
 mitigations
+moddiv
 monoid
 monorepo
 monospace
@@ -586,6 +591,7 @@ nanotoncoin
 nanotoncoins
 nanotons
 navbar
+nexteq
 nft
 nonexist
 nota
@@ -622,6 +628,7 @@ prefetch
 preimages
 preloading
 preloads
+preveq
 projectId
 prometheus
 proxying
@@ -739,9 +746,11 @@ trie
 truthy
 ts
 tsUSDe
+udict
 uint
 unary
 unblockable
+uncons
 undecodable
 underload
 underloaded
