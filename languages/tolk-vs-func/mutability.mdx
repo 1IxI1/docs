@@ -8,6 +8,7 @@ import { Aside } from '/snippets/aside.jsx';
 <Aside>
   No `~` tilde methods in Tolk.
   For example:
+
   - `cs.loadInt(32)` modifies a slice and returns an integer.
   - `b.storeInt(x, 32)` modifies a builder.
   - `b = b.storeInt()`  also works because the method returns `self`.
@@ -25,7 +26,7 @@ Behavior and semantics differ from FunC.
 Tolk method calls are designed to behave similarly to JavaScript:
 
 | FunC                                                                      | Tolk                                                           |
-|---------------------------------------------------------------------------|----------------------------------------------------------------|
+| ------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | `int flags = cs~load_uint(32);`                                           | `var flags = cs.loadUint(32);`                                 |
 | `(cs, int flags) = cs.load_uint(32);`                                     | `var flags = cs.loadUint(32);`                                 |
 | `(slice cs2, int flags) = cs.load_uint(32);`                              | `var cs2 = cs;` `var flags = cs2.loadUint(32);`                |
@@ -34,7 +35,6 @@ Tolk method calls are designed to behave similarly to JavaScript:
 | `b~store_uint(x, 32);`                                                    | `b.storeInt(x, 32);`                                           |
 | `b = b.store_int(x, 32);`                                                 | `b.storeInt(x, 32);` // also works  `b = b.storeUint(32);`     |
 | `b = b.store_int(x, 32).store_int(y, 32);`                                | `b.storeInt(x, 32).storeInt(y, 32);`  // also works `b = ...;` |
-
 
 ### Value semantics
 
@@ -82,7 +82,9 @@ origX.increment();        // error, not a method, unexpected mutation
 val constX = getSome();
 increment(mutate constX); // error, it's immutable since `val`
 ```
+
 This also applies to slices and other types:
+
 ```tolk
 fun readFlags(mutate cs: slice) {
     return cs.loadInt(32);
@@ -93,6 +95,7 @@ val flags = readFlags(mutate msgBody);
 ```
 
 A function can define multiple mutate parameters:
+
 ```tolk
 fun incrementXY(mutate x: int, mutate y: int, byValue: int) {
     x += byValue;
@@ -103,7 +106,7 @@ incrementXY(mutate origX, mutate origY, 10);   // both += 10
 ```
 
 <Aside>
-This behavior is similar to passing by reference, but since ref is already used in TON for cells and slices, the keyword `mutate` is used instead.
+  This behavior is similar to passing by reference, but since ref is already used in TON for cells and slices, the keyword `mutate` is used instead.
 </Aside>
 
 ### Instance methods and self
@@ -139,6 +142,7 @@ fun slice.preloadInt32(self) {
 Combining `mutate` with `self` defines a method that modifies the object and is called using the dot syntax.
 
 Example:
+
 ```tolk
 fun slice.readFlags(mutate self) {
     return self.loadInt(32);
@@ -195,6 +199,7 @@ b = b.storeInt32(5); // works with assignment, since also returns
 The return type must be explicitly declared as `self`. Omitting it causes a compilation error.
 
 ### Mutate self in asm functions
+
 The same behavior can also be implemented in `asm` functions.
 A mutation in the compiler works as an implicit return and reassignment of `mutate` parameters.
 
@@ -259,4 +264,3 @@ fun builder.myStoreMessageOp(mutate self, flags: int): self {
     return self.storeUint(32, flags);
 }
 ```
-

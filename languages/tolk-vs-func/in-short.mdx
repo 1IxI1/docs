@@ -6,6 +6,7 @@ Tolk is more similar to TypeScript and Kotlin than to C or Lisp.
 It provides complete control over the TVM assembler, as it includes a FunC kernel within.
 
 ### Declarations
+
 - `fun` declares a function.
 - `get fun` declares a get method.
 - `var` declares a variable.
@@ -39,33 +40,36 @@ get fun currentCounter(): int { ... }
 - No `impure`. All functions are treated as `impure` by default; the compiler does not remove user function calls.
 - Use `onInternalMessage`, `onExternalMessage`, and `onBouncedMessage` instead of `recv_internal` and `recv_external`.
 - `2+2` is 4, not an identifier. Identifiers are **alphanumeric**. Use `const OP_INCREASE` instead of `const op::increase`. `cell` and `slice` are valid identifiers; not keywords.
--  Logical operators AND `&&`, OR `||`, NOT `!` are supported.
+- Logical operators AND `&&`, OR `||`, NOT `!` are supported.
 
 #### Syntax improvements
- - `;; comment` → `// comment`
- - `{- comment -}` → `/* comment */`
- - `#include` → `import`; strict rule: **import only what is used**
- - `~ found` → `!found`; used for boolean values only (true is -1, as in FunC)
- - `v = null()` → `v = null`
- - `null?(v)` → `v == null`, similar for `builder_null?` and others
- - `~ null?(v)` → `c != null`
- - `throw(excNo)` → `throw excNo`
- - `catch(_, _)` → `catch`
- - `catch(_, excNo)` → `catch(excNo)`
- - `throw_unless(excNo, cond)` → `assert(cond, excNo)`
- - `throw_if(excNo, cond)` → `assert(!cond, excNo)`
- - `return ()` → `return`
- - `do ... until (cond)` → `do ... while (!cond)`
- - `elseif` → `else if`
- - `ifnot (cond)` → `if (!cond)`
- - `"..."c` → `stringCrc32("...")` and other postfixes
+
+- `;; comment` → `// comment`
+- `{- comment -}` → `/* comment */`
+- `#include` → `import`; strict rule: **import only what is used**
+- `~ found` → `!found`; used for boolean values only (true is -1, as in FunC)
+- `v = null()` → `v = null`
+- `null?(v)` → `v == null`, similar for `builder_null?` and others
+- `~ null?(v)` → `c != null`
+- `throw(excNo)` → `throw excNo`
+- `catch(_, _)` → `catch`
+- `catch(_, excNo)` → `catch(excNo)`
+- `throw_unless(excNo, cond)` → `assert(cond, excNo)`
+- `throw_if(excNo, cond)` → `assert(!cond, excNo)`
+- `return ()` → `return`
+- `do ... until (cond)` → `do ... while (!cond)`
+- `elseif` → `else if`
+- `ifnot (cond)` → `if (!cond)`
+- `"..."c` → `stringCrc32("...")` and other postfixes
 
 ### Compilation model
+
 - Functions can be called before declaration.
 - Forward declarations are not required.
 - The compiler first parses and then resolves symbols, producing an AST representation of the source code.
 
 ### Standard library
+
 - Standard library functions use clear, camelCase names.
 - The stdlib is embedded and split into multiple files.
 - Common functions are available; specialized ones can be imported. For example, `import "@stdlib/tvm-dicts"`.
@@ -73,6 +77,7 @@ get fun currentCounter(): int { ... }
 - See [the FunC-Tolk stdlib mapping](/languages/tolk-vs-func/stdlib).
 
 ### Language features
+
 - No `~` tilde methods. See [mutability details](/languages/tolk-vs-func/mutability).
 - Type mismatch errors are clear and readable.
 - The `bool` type is supported.
@@ -94,14 +99,14 @@ get fun currentCounter(): int { ... }
 - Includes gas optimization improvements.
 
 ### Tooling around
+
 - [JetBrains IDE plugin](https://github.com/ton-blockchain/intellij-ton)
 - [VS Code extension](https://github.com/ton-blockchain/ton-language-server)
 - [FunC-to-Tolk converter](https://github.com/ton-blockchain/convert-func-to-tolk)
 - [tolk-js](https://github.com/ton-blockchain/tolk-js) WASM wrapper for blueprint
 
-
 ### Gas benchmarks
+
 The [Tolk-bench repository](https://github.com/ton-blockchain/tolk-bench) contains contracts migrated from FunC to Tolk, with identical logic and passing the same tests.
 
 Code readability is improved, and gas usage is reduced.
-
