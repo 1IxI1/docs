@@ -139,6 +139,7 @@ Hashmaps
 Hasse
 Hetzner
 Highload
+Hindley
 Homotopy
 Héctor
 IPFS
@@ -630,8 +631,8 @@ pyAndr3w
 pytoniq
 queryable
 ragpull
-recv
 reconnections
+recv
 redeclaration
 redeclared
 redistributable
