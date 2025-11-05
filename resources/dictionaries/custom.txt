@@ -557,8 +557,8 @@ milli
 minimalistic
 minmax
 mintable
-mintmachine
 mintless
+mintmachine
 mintmachine
 misclick
 misclicks
@@ -612,6 +612,7 @@ pasteable
 paywalled
 performant
 permissionless
+pfxdict
 plaintext
 plaintexts
 plsc
