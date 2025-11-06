@@ -552,8 +552,8 @@ milli
 minimalistic
 minmax
 mintable
-mintmachine
 mintless
+mintmachine
 mintmachine
 misclick
 misclicks
@@ -574,6 +574,7 @@ multisig
 multisignature
 mytoncore
 mytonctrl
+mytonwallet
 namespace
 namespaces
 nano
@@ -633,8 +634,8 @@ pyAndr3w
 pytoniq
 queryable
 ragpull
-recv
 reconnections
+recv
 redeclaration
 redeclared
 redistributable
