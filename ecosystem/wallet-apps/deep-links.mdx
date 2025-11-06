@@ -18,21 +18,23 @@ Best for dApps that require multiple transactions within a session or a persiste
 
 **Advantages**
 
--  Permanent communication channel with the wallet.
--  Users only scan a QR code once.
--  Can track transaction confirmation via the returned BOC.
--  Ready-made SDKs and UI kits for various platforms.
+- Permanent communication channel with the wallet.
+- Users only scan a QR code once.
+- Can track transaction confirmation via the returned BOC.
+- Ready-made SDKs and UI kits for various platforms.
 
 **Disadvantages**
 
--  If only one payment is needed, users must connect the wallet and confirm the transaction.
--  More complex integration than a ton:// link.
+- If only one payment is needed, users must connect the wallet and confirm the transaction.
+- More complex integration than a ton:// link.
 
 Explore [TON Connect](/ecosystem/ton-connect/index).
 
 ## Deep links invoices
 
-<Aside type="caution">
+<Aside
+  type="caution"
+>
   The TON link `ton://` is less preferred in the ecosystem, but may be useful for simple and tiny one-time payment flow.
 </Aside>
 
@@ -42,15 +44,15 @@ ton://{link-body}
 
 **Advantages**
 
--  Easy integration.
--  No need to connect a wallet.
+- Easy integration.
+- No need to connect a wallet.
 
 **Disadvantages**
 
--  Users must scan a new QR code for each payment.
--  Cannot track if the user signed the transaction.
--  No information about the user’s address.
--  Requires workarounds for platforms where links are not clickable (e.g., Telegram Desktop bots).
+- Users must scan a new QR code for each payment.
+- Cannot track if the user signed the transaction.
+- No information about the user’s address.
+- Requires workarounds for platforms where links are not clickable (e.g., Telegram Desktop bots).
 
 The `ton://` scheme is part of the broader TON blockchain standard, enabling interoperability across different TON-based wallets and services.
 
@@ -69,7 +71,7 @@ ton://transfer/{ADDRESS}?amount={AMOUNT}&text={TEXT}
 ```
 
 | Parameter   | Description                                                 | Required |
-| ----------- |-------------------------------------------------------------| -------- |
+| ----------- | ----------------------------------------------------------- | -------- |
 | `{ADDRESS}` | The recipient's TON address.                                | required |
 | `amount`    | The amount of TON to send, in nanotons.                     | optional |
 | `text`      | A URL-encoded UTF-8 text message to attach to the transfer. | optional |
@@ -124,7 +126,7 @@ Opens the Send screen with an expiry timestamp for the transaction.
 ```
 
 | Parameter   | Description                                                 | Required |
-| ----------- |-------------------------------------------------------------| -------- |
+| ----------- | ----------------------------------------------------------- | -------- |
 | `{ADDRESS}` | The recipient's TON address.                                | required |
 | `amount`    | The amount of TON to send, in nanotons.                     | optional |
 | `text`      | A URL-encoded UTF-8 text message to attach to the transfer. | optional |
@@ -151,7 +153,7 @@ ton://transfer/{ADDRESS}?jetton={JETTON_ADDRESS}&amount={AMOUNT}&text={TEXT}
 ```
 
 | Parameter   | Description                                                 | Required |
-| ----------- |-------------------------------------------------------------| -------- |
+| ----------- | ----------------------------------------------------------- | -------- |
 | `{ADDRESS}` | The recipient's TON wallet address.                         | required |
 | `jetton`    | The jetton master address.                                  | required |
 | `amount`    | The amount of jettons to send.<sup>💡</sup>                 | optional |
@@ -160,29 +162,31 @@ ton://transfer/{ADDRESS}?jetton={JETTON_ADDRESS}&amount={AMOUNT}&text={TEXT}
 
 <Aside type="tip">
   One whole Jetton for `amount` is defined by
-- [`decimals`](/standard/tokens/metadata#decimals) the number of fractional digits
-- `unit` that represents the smallest indivisible amount of the token (similar to satoshi in Bitcoin).
 
-<Accordion title="Read more...">
-$$
-\text{One whole Jetton} = unit \times 10^{decimal}
-$$
+  - [`decimals`](/standard/tokens/metadata#decimals) the number of fractional digits
+  - `unit` that represents the smallest indivisible amount of the token (similar to satoshi in Bitcoin).
 
-For example, a USDT Jetton on TON defines decimals = 6.
-This means 1 whole USDT equals:
+  <Accordion
+    title="Read more..."
+  >
+    $$
+    \text{One whole Jetton} = unit \times 10^{decimal}
+    $$
 
-$$
-1\ \text{USDT} = 1{,}000{,}000\ \text{smallest units}
-$$
+    For example, a USDT Jetton on TON defines decimals = 6.
+    This means 1 whole USDT equals:
 
-Or, in general form:
+    $$
+    1\ \text{USDT} = 1{,}000{,}000\ \text{smallest units}
+    $$
 
-$$
-\text{One whole USDT} = unit \times 10^{6}
-$$
-</Accordion>
+    Or, in general form:
+
+    $$
+    \text{One whole USDT} = unit \times 10^{6}
+    $$
+  </Accordion>
 </Aside>
-
 
 #### Transfer default jetton
 
@@ -217,7 +221,7 @@ ton://transfer/{ADDRESS}?amount={AMOUNT}&bin={BINARY_DATA}
 ```
 
 | Parameter   | Description                                                                    | Required |
-| ----------- |--------------------------------------------------------------------------------| -------- |
+| ----------- | ------------------------------------------------------------------------------ | -------- |
 | `{ADDRESS}` | The recipient's TON address.                                                   | required |
 | `amount`    | The amount of TON to send, in nanotons.                                        | optional |
 | `bin`       | A URL-encoded base64 BoC which will be attached as a body to internal message. | optional |
