@@ -654,6 +654,7 @@ ruleset
 runbooks
 runtimes
 sandboxing
+satoshi
 savelist
 savelists
 sbt
