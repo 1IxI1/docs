@@ -9,7 +9,7 @@ import { Aside } from '/snippets/aside.jsx';
   type="note"
   title="Compact version"
 >
-  [Tolk vs FunC: in short](/languages/tolk-vs-func/in-short)
+  [Tolk vs FunC: in short](/languages/tolk/vs-func/in-short)
 </Aside>
 
 ### Comment syntax
@@ -448,7 +448,7 @@ return tupleLast(t);       // ok if function specifies return type
 
 In Tolk, symbols from another file cannot be used without explicitly importing it — **import what is used**.
 
-All standard library functions are available by default. Downloading the stdlib and including it manually `#include "stdlib.fc"` is unnecessary. See [embedded stdlib](/languages/tolk-vs-func/in-detail#stdlib-is-now-embedded%2C-not-downloaded-from-github).
+All standard library functions are available by default. Downloading the stdlib and including it manually `#include "stdlib.fc"` is unnecessary. See [embedded stdlib](/languages/tolk/vs-func/in-detail#stdlib-is-now-embedded%2C-not-downloaded-from-github).
 
 There is a global naming scope. If the same symbol is declared in multiple files, it results in an error.
 `import` brings all file-level symbols into scope. The `export` keyword is reserved for future use.
@@ -632,7 +632,7 @@ All standard library functions now use longer, descriptive names in camelCase st
 
 The former `stdlib.fc` was split into multiple files, including `common.tolk` and `tvm-dicts.tolk`.
 
-See the full comparison: [Tolk vs FunC: standard library](/languages/tolk-vs-func/stdlib).
+See the full comparison: [Tolk vs FunC: standard library](/languages/tolk/vs-func/stdlib).
 
 ### stdlib is now embedded, not downloaded from GitHub
 
@@ -1693,7 +1693,7 @@ b.storeUint(x, 32);   // modifies a builder, can be chainable
 s.loadUint(32);       // modifies a slice, returns integer
 ```
 
-For details, see [Mutability in Tolk](/languages/tolk-vs-func/mutability).
+For details, see [Mutability in Tolk](/languages/tolk/vs-func/mutability).
 
 ### Auto-packing to/from cells/builders/slices
 

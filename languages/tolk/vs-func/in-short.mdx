@@ -74,11 +74,11 @@ get fun currentCounter(): int { ... }
 - The stdlib is embedded and split into multiple files.
 - Common functions are available; specialized ones can be imported. For example, `import "@stdlib/tvm-dicts"`.
 - IDEs provide import suggestions.
-- See [the FunC-Tolk stdlib mapping](/languages/tolk-vs-func/stdlib).
+- See [the FunC-Tolk stdlib mapping](/languages/tolk/vs-func/stdlib).
 
 ### Language features
 
-- No `~` tilde methods. See [mutability details](/languages/tolk-vs-func/mutability).
+- No `~` tilde methods. See [mutability details](/languages/tolk/vs-func/mutability).
 - Type mismatch errors are clear and readable.
 - The `bool` type is supported.
 - Indexed access `tensorVar.0` and `tupleVar.0` is supported.
@@ -108,5 +108,3 @@ get fun currentCounter(): int { ... }
 ### Gas benchmarks
 
 The [Tolk-bench repository](https://github.com/ton-blockchain/tolk-bench) contains contracts migrated from FunC to Tolk, with identical logic and passing the same tests.
-
-Code readability is improved, and gas usage is reduced.

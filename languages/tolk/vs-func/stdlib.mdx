@@ -5,21 +5,21 @@ sidebarTitle: "Standard library"
 
 import { Aside } from '/snippets/aside.jsx';
 
-FunC includes a low-level [standard library](/languages/func/stdlib) in the `stdlib.fc` file, containing `asm` functions closely tied to [TVM instructions](/tvm/instructions).
+FunC includes a low-level [standard library](/languages/tolk/func/stdlib) in the `stdlib.fc` file, containing `asm` functions closely tied to [TVM instructions](/tvm/instructions).
 
 Tolk provides a standard library based on FunC’s with three main differences.
 
 1. It is split into multiple files: `common.tolk`, `tvm-dicts.tolk`, and others. Functions from `common.tolk` are available, while functions from other files require an import:
 
-```tolk
-import "@stdlib/tvm-dicts"
+    ```tolk
+    import "@stdlib/tvm-dicts"
 
-beginCell()          // always available
-createEmptyDict()    // available due to import
-```
+    beginCell()          // always available
+    createEmptyDict()    // available due to import
+    ```
 
-2. No separate download from GitHub; is required; the library is included in the Tolk distribution.
-2. Tolk has functions and methods which are called using the dot operator. Many global FunC functions became methods of builders, slices, and other types, and can no longer be called as functions.
+1. No separate download from GitHub; is required; the library is included in the Tolk distribution.
+1. Tolk has functions and methods which are called using the dot operator. Many global FunC functions became methods of builders, slices, and other types, and can no longer be called as functions.
 
 ## Functions vs methods
 
@@ -262,8 +262,6 @@ Some functions from FunC are missing in Tolk’s standard library, but it works 
 
 Tolk is evolving, and its standard library is continually updated over time. Check the `tolk-stdlib/` folder in the [source code](https://github.com/ton-blockchain/ton/tree/master/crypto/smartcont/tolk-stdlib). In addition to functions, some constants are added, such as `SEND_MODE_*` and `RESERVE_MODE_*`.
 
-When FunC becomes deprecated, the Tolk standard library documentation will be fully rewritten.
-
 All of these functions are wrappers over TVM assembler instructions. Missing functionality can be implemented by manually wrapping any TVM instruction.
 
 ## Mutating functions
@@ -276,7 +274,7 @@ Many FunC functions that used the `~` tilde now mutate the object in Tolk rather
 | ...                             | ...                            |
 
 - If `cs~load_uint(…)` was used, use `cs.loadUint(…)` and everything works.
-- If `cs.load_uint(…)` was used to get a **copy**, a different approach is needed. [Read about mutability](/languages/tolk-vs-func/stdlib).
+- If `cs.load_uint(…)` was used to get a **copy**, a different approach is needed. [Read about mutability](/languages/tolk/vs-func/stdlib).
 
 ## How the embedded stdlib works
 
@@ -286,14 +284,14 @@ Here’s how it works:
 
 1. The Tolk compiler locates the stdlib folder by searching predefined paths relative to an executable binary.
 
-For example, when the Tolk compiler is launched from a system-installed package, e.g., `/usr/bin/tolk`, the stdlib is located in `/usr/share/ton/smartcont`.
+    For example, when the Tolk compiler is launched from a system-installed package, e.g., `/usr/bin/tolk`, the stdlib is located in `/usr/share/ton/smartcont`.
 
-For custom installations, the `TOLK_STDLIB` environment variable can be set. This is standard practice for compilers.
+    For custom installations, the `TOLK_STDLIB` environment variable can be set. This is standard practice for compilers.
 
-2. The WASM wrapper [tolk-js](https://github.com/ton-blockchain/tolk-js) also includes the stdlib, so all stdlib functions are available out of the box when using tolk-js directly or through blueprint.
+1. The WASM wrapper [tolk-js](https://github.com/ton-blockchain/tolk-js) also includes the stdlib, so all stdlib functions are available out of the box when using tolk-js directly or through blueprint.
 
-2. JetBrains and VS Code IDE plugins automatically locate the stdlib to provide auto-completion.
+1. JetBrains and VS Code IDE plugins automatically locate the stdlib to provide auto-completion.
 
-Blueprint installs tolk-js automatically, creating the `node_modules/@ton/tolk-js/` folder in the project structure.
+    Blueprint installs tolk-js automatically, creating the `node_modules/@ton/tolk-js/` folder in the project structure.
 
-It contains `common.tolk`, `tvm-dicts.tolk`, and other stdlib files.
+    It contains `common.tolk`, `tvm-dicts.tolk`, and other stdlib files.

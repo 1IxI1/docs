@@ -391,14 +391,20 @@
       {
         "group": "Languages",
         "pages": [
-          "languages/tolk",
           {
-            "group": "Tolk vs FunC",
+            "group": "Tolk",
             "pages": [
-              "languages/tolk-vs-func/in-short",
-              "languages/tolk-vs-func/in-detail",
-              "languages/tolk-vs-func/mutability",
-              "languages/tolk-vs-func/stdlib"
+              "languages/tolk/tolk",
+              {
+                "group": "vs FunC",
+                "expanded": true,
+                "pages": [
+                  "languages/tolk/vs-func/in-short",
+                  "languages/tolk/vs-func/in-detail",
+                  "languages/tolk/vs-func/mutability",
+                  "languages/tolk/vs-func/stdlib"
+                ]
+              }
             ]
           },
           {
