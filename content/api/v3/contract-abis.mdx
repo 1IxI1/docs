@@ -1,0 +1,21 @@
+---
+title: "Contract ABIs"
+sidebarTitle: "Contract ABIs"
+---
+
+API v3 identifies contracts by code hash against a pinned ABI catalog, then decodes their storage, message bodies, and get-method results into JSON. The catalog is a pinned release of [ton-blockchain/abis](https://github.com/ton-blockchain/abis), compiled from Tolk interface declarations. Identification is bytecode-hash matching, not source verification.
+
+The `/acton/contracts`, `/acton/decode`, and `/acton/runGetMethod` endpoints expose the catalog, decode a supplied BoC, and run a get method. Parameters and response schemas are documented on each endpoint's reference page.
+
+## Catalog revision and caching
+
+Every `/acton/*` response carries the catalog revision in the `X-Acton-Catalog-Revision` header. It is the SHA-256 of the pinned catalog, so a client can tell which ABIs produced a decoded value.
+
+`GET /acton/contracts` also returns an `ETag`. Without a selector the endpoint returns the whole index, around 400 KB for 288 entries, so repeat the request with `If-None-Match` and receive `304 Not Modified` while the catalog is unchanged.
+
+## Contract identity in other endpoints
+
+Identity arrives with the accounts a response already carries, so no extra lookup is needed.
+
+- `/traces`, `/transactions`, and `/accountStates` return a top-level `code_book`. It maps a code hash to the interfaces and catalog entries known for that code, most specific first, and is keyed exactly as the account states in the same response spell the hash. It describes code, never an account: a hash listed there says nothing about which account currently runs it.
+- `/accountStates?include_storage=true` also decodes each account's data cell with the entry its code book names first, and reports `storage` or `storage_error` per account.

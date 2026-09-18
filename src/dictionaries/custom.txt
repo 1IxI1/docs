@@ -271,6 +271,7 @@ EOA
 EOAs
 ERC
 Eruda
+ETag
 Ethena
 Ethereum
 Ethernaut
